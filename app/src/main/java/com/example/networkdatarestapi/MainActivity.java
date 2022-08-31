@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,31 @@ public class MainActivity extends AppCompatActivity {
         btn_getCityId = findViewById(R.id.btn_getCityId);
         btn_getWeatherById = findViewById(R.id.btn_useCityId);
         btn_getWeatherByName = findViewById(R.id.btn_useCityName);
+        lv_forecastList = findViewById(R.id.lv_weatherReport);
+        editText = findViewById(R.id.editTextTextPersonName);
+
+        //Click listeners for each button
+        btn_getWeatherById.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "You clicked me!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        btn_getCityId.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "You clicked me!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        btn_getWeatherByName.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "You clicked me!", Toast.LENGTH_LONG).show();
+            }
+        });
+
         //setSupportActionBar(binding.toolbar);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
