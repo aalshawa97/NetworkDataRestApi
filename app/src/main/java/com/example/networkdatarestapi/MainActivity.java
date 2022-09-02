@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     //Define all the components that are in the XML file
     Button btn_getCityId, btn_getWeatherById, btn_getWeatherByName;
-    EditText editText;
+    EditText etTextPersonName;
     ListView lv_forecastList;
 
     //This is the data that will be shown in the listview component.
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         btn_getWeatherById = findViewById(R.id.btn_useCityId);
         btn_getWeatherByName = findViewById(R.id.btn_useCityName);
         lv_forecastList = findViewById(R.id.lv_weatherReport);
-        editText = findViewById(R.id.editTextTextPersonName);
+        etTextPersonName = findViewById(R.id.editTextTextPersonName);
 
         //Click listeners for each button
         btn_getWeatherById.setOnClickListener(new View.OnClickListener(){
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         btn_getWeatherByName.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "You clicked me!", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "You clicked me " + etTextPersonName.getText(), Toast.LENGTH_LONG).show();
             }
         });
 
