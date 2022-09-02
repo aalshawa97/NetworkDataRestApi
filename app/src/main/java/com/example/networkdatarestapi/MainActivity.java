@@ -2,6 +2,13 @@ package com.example.networkdatarestapi;
 
 import android.os.Bundle;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +28,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +74,42 @@ public class MainActivity extends AppCompatActivity {
         btn_getCityId.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+
+                //final TextView textView = (TextView) findViewById(R.id.text);
+
+                // Instantiate the RequestQueue.
+                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                String url = "https://api.openweathermap.org/data/2.5/weather?q=Dhaka&appid=1f3c5ae0f38df8fd7bc09ad6874a4039";
+                JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this, "Something wrong", Toast.LENGTH_LONG).show();
+                    }
+                });
+                // Request a string response from the provided URL.
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                // Display the first 500 characters of the response string.
+                                Toast.makeText(MainActivity.this, "Response receieved: ", Toast.LENGTH_LONG).show();
+                                //Toast.makeText((MainActivity.this,"Response is: " + response.substring(0,500), Toast.LENGTH_LONG)).showText();
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //textView.setText("That didn't work!");
+                        Toast.makeText(MainActivity.this, "That did not work!", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                // Add the request to the RequestQueue.
+                queue.add(stringRequest);
                 Toast.makeText(MainActivity.this, "You clicked me!", Toast.LENGTH_LONG).show();
             }
         });
