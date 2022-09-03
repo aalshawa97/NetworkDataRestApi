@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-                String url = "https://api.openweathermap.org/data/2.5/weather?q=" + "Dhaka" +"&appid=1f3c5ae0f38df8fd7bc09ad6874a4039";
+                String url = "https://api.openweathermap.org/data/2.5/weather?q=" + etTextPersonName.getText() +"&appid=1f3c5ae0f38df8fd7bc09ad6874a4039";
 
                 final String[] cityID = {""};
                 JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
