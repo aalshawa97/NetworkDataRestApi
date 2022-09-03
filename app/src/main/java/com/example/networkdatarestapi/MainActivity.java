@@ -30,6 +30,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,11 +81,19 @@ public class MainActivity extends AppCompatActivity {
 
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-                String url = "https://api.openweathermap.org/data/2.5/weather?q=Dhaka&appid=1f3c5ae0f38df8fd7bc09ad6874a4039";
+                String url = "https://api.openweathermap.org/data/2.5/weather?q=" + "Dhaka" +"&appid=1f3c5ae0f38df8fd7bc09ad6874a4039";
+
+                final String[] cityID = {""};
                 JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+                        try {
+                            JSONObject cityInfo = response.getJSONObject(0);
+                            cityID[0] = cityInfo.getString("id");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(MainActivity.this, "City ID = " + cityID[0], Toast.LENGTH_LONG).show();
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -97,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(String response) {
                                 // Display the first 500 characters of the response string.
-                                Toast.makeText(MainActivity.this, "Response receieved: ", Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this, "Response is: " + response.toString(), Toast.LENGTH_LONG).show();
                                 //Toast.makeText((MainActivity.this,"Response is: " + response.substring(0,500), Toast.LENGTH_LONG)).showText();
                             }
                         }, new Response.ErrorListener() {
