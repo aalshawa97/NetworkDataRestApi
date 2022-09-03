@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
@@ -84,11 +85,12 @@ public class MainActivity extends AppCompatActivity {
                 String url = "https://api.openweathermap.org/data/2.5/weather?q=" + etTextPersonName.getText() +"&appid=1f3c5ae0f38df8fd7bc09ad6874a4039";
 
                 final String[] cityID = {""};
-                JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                //JSONObject Jarray = new JSONObject(result);
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         try {
-                            JSONObject cityInfo = response.getJSONObject(0);
+                            JSONObject cityInfo = response;
                             cityID[0] = cityInfo.getString("id");
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -98,16 +100,56 @@ public class MainActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, "Something wrong", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
+
+                /*
+
+                RequestQueue requestQueue = Volley.newRequestQueue(this);
+        String url = "https://itunes.apple.com/search?term=michael+jackson";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (response != null) {
+                    int resultCount = response.optInt("resultCount");
+                    if (resultCount > 0) {
+                        Gson gson = new Gson();
+                        JSONArray jsonArray = response.optJSONArray("results");
+                        if (jsonArray != null) {
+                            SongInfo[] songs = gson.fromJson(jsonArray.toString(), SongInfo[].class);
+                            if (songs != null && songs.length > 0) {
+                                for (SongInfo song : songs) {
+                                    Log.i("LOG", song.trackViewUrl);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("LOG", error.toString());
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+                 */
+/*
+                JSONObject object = new JSONObject("");
+                JSONArray Jarray  = object.getJSONArray("contacts");
+
+                for (int i = 0; i < Jarray.length(); i++)
+                {
+                    JSONObject Jasonobject = Jarray.getJSONObject(i);
+                }*/
                 // Request a string response from the provided URL.
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 // Display the first 500 characters of the response string.
-                                Toast.makeText(MainActivity.this, "Response is: " + response.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this, "City ID: " + response.toString(), Toast.LENGTH_LONG).show();
                                 //Toast.makeText((MainActivity.this,"Response is: " + response.substring(0,500), Toast.LENGTH_LONG)).showText();
                             }
                         }, new Response.ErrorListener() {
@@ -119,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 // Add the request to the RequestQueue.
+                //MySingleton.getInstance(MainActivity.this).addToRequestQueue(request);
+
                 queue.add(stringRequest);
                 Toast.makeText(MainActivity.this, "You clicked me!", Toast.LENGTH_LONG).show();
             }
