@@ -6,11 +6,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,7 +28,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +36,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String QUERY_FOR_CITY_ID = "https://api.openweathermap.org/data/2.5/weather?q=";
+    public static final String APP_ID = "&appid=1f3c5ae0f38df8fd7bc09ad6874a4039";
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     //Define all the components that are in the XML file
@@ -66,25 +65,65 @@ public class MainActivity extends AppCompatActivity {
         lv_forecastList = findViewById(R.id.lv_weatherReport);
         etTextPersonName = findViewById(R.id.editTextTextPersonName);
 
+        final WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
+
         //Click listeners for each button
         btn_getWeatherById.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "You clicked me!", Toast.LENGTH_LONG).show();
+
+                WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
+
+                String city = weatherDataService.getCityID(etTextPersonName.getText().toString(), new WeatherDataService.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(MainActivity.this, "Something is wrong ", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onResponse(String cityID) {
+                        Toast.makeText(MainActivity.this, "Returned an ID of " + cityID, Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
 
         btn_getCityId.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
 
+                String city = weatherDataService.getCityID(etTextPersonName.getText().toString(), new WeatherDataService.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(MainActivity.this, "Something is wrong ", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onResponse(String cityID) {
+                        Toast.makeText(MainActivity.this, "Returned an ID of " + cityID, Toast.LENGTH_LONG).show();
+                    }
+                });
+                Toast.makeText(MainActivity.this, "Returned an ID of " + city, Toast.LENGTH_SHORT).show();
                 //final TextView textView = (TextView) findViewById(R.id.text);
 
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-                String url = "https://api.openweathermap.org/data/2.5/weather?q=" + etTextPersonName.getText() +"&appid=1f3c5ae0f38df8fd7bc09ad6874a4039";
+                String url = QUERY_FOR_CITY_ID + etTextPersonName.getText() + APP_ID;
 
                 final String[] cityID = {""};
+                String cityId = WeatherDataService.getCityID(etTextPersonName.getText().toString(), new WeatherDataService.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(MainActivity.this, "Something wrong : " + message.toString(), Toast.LENGTH_LONG);
+                    }
+
+                    @Override
+                    public void onResponse(String cityID) {
+                        Toast.makeText(MainActivity.this, "Returned an ID of: " + cityID, Toast.LENGTH_LONG);
+                    }
+                });
                 //JSONObject Jarray = new JSONObject(result);
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
@@ -101,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(MainActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_LONG).show();
+
                     }
                 });
 
@@ -160,11 +200,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                // Add the request to the RequestQueue.
-                //MySingleton.getInstance(MainActivity.this).addToRequestQueue(request);
-
                 queue.add(stringRequest);
                 Toast.makeText(MainActivity.this, "You clicked me!", Toast.LENGTH_LONG).show();
+
+                // Add the request  to the RequestQueue.
+                MySingleton.getInstance(MainActivity.this).addToRequestQueue(request);
             }
         });
 
