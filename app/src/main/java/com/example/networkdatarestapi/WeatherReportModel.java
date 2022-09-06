@@ -133,6 +133,10 @@ public class WeatherReportModel {
     private String weather_state_name;
     private String weather_state_abbr;
 
+    public WeatherReportModel(){
+
+    }
+
     @Override
     public String toString() {
         return "WeatherReportModel{" +

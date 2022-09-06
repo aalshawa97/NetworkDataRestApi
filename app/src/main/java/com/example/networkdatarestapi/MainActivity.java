@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     ListView lv_forecastList;
 
     //This is the data that will be shown in the listview component.
-    List<WeatherReportModel> forecaseList = new ArrayList<>();
+    List<WeatherReportModel> forecastList = new ArrayList<>();
 
     //Default value for city is not provided by the user.
     String cityName = "Phoenix";
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
                 WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
 
-                String city = weatherDataService.getCityID(etTextPersonName.getText().toString(), new WeatherDataService.VolleyResponseListener() {
+                String city = weatherDataService.getCityID(etTextPersonName.getText().toString(), new WeatherDataService.ForecastByIDResponse(){
                     @Override
                     public void onError(String message) {
                         Toast.makeText(MainActivity.this, "Something is wrong ", Toast.LENGTH_LONG).show();
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
 
-                String city = weatherDataService.getCityID(etTextPersonName.getText().toString(), new WeatherDataService.VolleyResponseListener() {
+                String city = weatherDataService.getCityID(etTextPersonName.getText().toString(), new WeatherDataService.ForecastByIDResponse() {
                     @Override
                     public void onError(String message) {
                         Toast.makeText(MainActivity.this, "Something is wrong ", Toast.LENGTH_LONG).show();
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 String url = QUERY_FOR_CITY_ID + etTextPersonName.getText() + APP_ID;
 
                 final String[] cityID = {""};
-                String cityId = WeatherDataService.getCityID(etTextPersonName.getText().toString(), new WeatherDataService.VolleyResponseListener() {
+                String cityId = WeatherDataService.getCityID(etTextPersonName.getText().toString(), new WeatherDataService.ForecastByIDResponse() {
                     @Override
                     public void onError(String message) {
                         Toast.makeText(MainActivity.this, "Something wrong : " + message.toString(), Toast.LENGTH_LONG);

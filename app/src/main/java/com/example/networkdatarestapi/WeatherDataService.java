@@ -28,13 +28,13 @@ public class WeatherDataService {
         this.context = context;
     }
 
-    public interface VolleyResponseListener{
+    public interface ForecastByIDResponse{
         void onError(String message);
 
         void onResponse(String cityID);
     }
 
-    public static String getCityID(String cityName, VolleyResponseListener volleyResponseListener) {
+    public static String getCityID(String cityName, ForecastByIDResponse volleyResponseListener) {
 
         // Instantiate the RequestQueue.
         //RequestQueue queue = Volley.newRequestQueue(WeatherDataService.this);
@@ -79,7 +79,7 @@ public class WeatherDataService {
         return  cityID[0];
     }
 
-    public List<WeatherReportModel> getCityForecastByID(String cityID){
+    public void getCityForecastByID(String cityID, ForecastByIDResponse forecastByIDResponse){
         List<WeatherReportModel> report = new ArrayList<>();
 
        //Get the JSON object
@@ -88,6 +88,41 @@ public class WeatherDataService {
             @Override
             public void onResponse(JSONObject response) {
                 Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
+                try {
+                    List<JSONObject> consolidated_weather_list = (List<JSONObject>) response.getJSONObject("consolidated weather");
+                    WeatherReportModel first_day = new WeatherReportModel();
+                    String wind_direction_compass;
+                    float temperature = 0.0F;
+                    float temperatureMin = 0.0F;
+                    float temperatureMax = 0.0F;
+                    float pressure = 0.0F;
+                    float humidity = 0;
+                    float seaLevel = 0;
+                    float groundLevel = 0;
+                    float visibility = 0;
+                    float distance = 0.0F;
+
+                    JSONObject first_day_from_api = consolidated_weather_list.get(0);
+                    first_day.setId(first_day_from_api.getInt("id"));
+                    first_day.setWeather_state_name((String) first_day_from_api.get("weather_state_name"));
+                    first_day.setWeather_state_abbr(first_day_from_api.getString("weather_state_abbr"));
+                    first_day.setWind_direction_compass(first_day_from_api.getString("wind_direction_compass"));
+                    //first_day.setGroundLevel(first_day_from_api.getString(1.9f));
+                    first_day.setGroundLevel((float) first_day_from_api.getDouble("groundLevel"));
+                    first_day.setDistance((float)first_day_from_api.getDouble("distance"));
+                    first_day.setHumidity((float)first_day_from_api.getDouble("humidity"));
+                    first_day.setLongitude((float)first_day_from_api.getDouble("longitude"));
+                    first_day.setLatitude((float)first_day_from_api.getDouble("latitude"));
+                    first_day.setPressure((float)first_day_from_api.getDouble("pressure"));
+                    first_day.setSeaLevel((float) first_day_from_api.getDouble("seaLevel"));
+                    first_day.setTemperature((float) first_day_from_api.getDouble("temperature"));
+                    first_day.setTemperatureMax((float) first_day_from_api.getDouble("temperatureMax"));
+                    first_day.setTemperatureMin((float) first_day_from_api.getDouble("temperatureMin"));
+
+                    //forecastByIDResponse.onResponse(first_day);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -95,7 +130,7 @@ public class WeatherDataService {
 
             }
         });
-        return report;
+        //return report;
     }
 /*
     public List<WeatherReportModel> getCityForecastByName(String cityID){
