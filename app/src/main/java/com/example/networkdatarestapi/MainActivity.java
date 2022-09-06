@@ -32,9 +32,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    /*
+    {"coord":{"lon":34.4667,"lat":31.5},"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01n"}],"base":"stations","main":{"temp":299.75,"feels_like":299.75,"temp_min":299.75,"temp_max":299.75,"pressure":1009,"humidity":68,"sea_level":1009,"grnd_level":1004},"visibility":10000,"wind":{"speed":2.69,"deg":334,"gust":3},"clouds":{"all":0},"dt":1662398575,"sys":{"type":2,"id":2002441,"country":"PS","sunrise":1662348016,"sunset":1662393720},"timezone":10800,"id":281133,"name":"Gaza","cod":200}
+     */
 
     public static final String QUERY_FOR_CITY_ID = "https://api.openweathermap.org/data/2.5/weather?q=";
     public static final String APP_ID = "&appid=1f3c5ae0f38df8fd7bc09ad6874a4039";
@@ -50,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
 
     //Default value for city is not provided by the user.
     String cityName = "Phoenix";
+
+    public List<WeatherReportModel> getCityForecastByID(String cityID){
+        LinkedList<WeatherReportModel> myReport = new LinkedList<>();
+        return myReport;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

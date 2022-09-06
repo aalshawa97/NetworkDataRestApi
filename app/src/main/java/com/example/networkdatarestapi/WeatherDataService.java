@@ -12,8 +12,12 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WeatherDataService {
     private static Context context;
+    String cityID;
     //public Context context;
 
     public static final String QUERY_FOR_CITY_ID = "https://api.openweathermap.org/data/2.5/weather?q=";
@@ -75,11 +79,25 @@ public class WeatherDataService {
         return  cityID[0];
     }
 
-    /*
     public List<WeatherReportModel> getCityForecastByID(String cityID){
-        return " ";
-    }
+        List<WeatherReportModel> report = new ArrayList<>();
 
+       //Get the JSON object
+        String url = QUERY_FOR_CITY_ID + cityID;
+        JsonObjectRequest request = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        return report;
+    }
+/*
     public List<WeatherReportModel> getCityForecastByName(String cityID){
         return " ";
     }
