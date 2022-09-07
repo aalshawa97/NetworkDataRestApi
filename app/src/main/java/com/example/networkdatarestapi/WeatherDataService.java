@@ -101,25 +101,29 @@ public class WeatherDataService {
                     float groundLevel = 0;
                     float visibility = 0;
                     float distance = 0.0F;
-
                     JSONObject first_day_from_api = consolidated_weather_list.get(0);
-                    first_day.setId(first_day_from_api.getInt("id"));
-                    first_day.setWeather_state_name((String) first_day_from_api.get("weather_state_name"));
-                    first_day.setWeather_state_abbr(first_day_from_api.getString("weather_state_abbr"));
-                    first_day.setWind_direction_compass(first_day_from_api.getString("wind_direction_compass"));
-                    //first_day.setGroundLevel(first_day_from_api.getString(1.9f));
-                    first_day.setGroundLevel((float) first_day_from_api.getDouble("groundLevel"));
-                    first_day.setDistance((float)first_day_from_api.getDouble("distance"));
-                    first_day.setHumidity((float)first_day_from_api.getDouble("humidity"));
-                    first_day.setLongitude((float)first_day_from_api.getDouble("longitude"));
-                    first_day.setLatitude((float)first_day_from_api.getDouble("latitude"));
-                    first_day.setPressure((float)first_day_from_api.getDouble("pressure"));
-                    first_day.setSeaLevel((float) first_day_from_api.getDouble("seaLevel"));
-                    first_day.setTemperature((float) first_day_from_api.getDouble("temperature"));
-                    first_day.setTemperatureMax((float) first_day_from_api.getDouble("temperatureMax"));
-                    first_day.setTemperatureMin((float) first_day_from_api.getDouble("temperatureMin"));
 
-                    //forecastByIDResponse.onResponse(first_day);
+                    for(int i = 0; i<consolidated_weather_list.toArray().length; i++){
+                        consolidated_weather_list.get(i);
+                        first_day.setId(first_day_from_api.getInt("id"));
+                        first_day.setWeather_state_name((String) first_day_from_api.get("weather_state_name"));
+                        first_day.setWeather_state_abbr(first_day_from_api.getString("weather_state_abbr"));
+                        first_day.setWind_direction_compass(first_day_from_api.getString("wind_direction_compass"));
+                        //first_day.setGroundLevel(first_day_from_api.getString(1.9f));
+                        first_day.setGroundLevel((float) first_day_from_api.getDouble("groundLevel"));
+                        first_day.setDistance((float)first_day_from_api.getDouble("distance"));
+                        first_day.setHumidity((float)first_day_from_api.getDouble("humidity"));
+                        first_day.setLongitude((float)first_day_from_api.getDouble("longitude"));
+                        first_day.setLatitude((float)first_day_from_api.getDouble("latitude"));
+                        first_day.setPressure((float)first_day_from_api.getDouble("pressure"));
+                        first_day.setSeaLevel((float) first_day_from_api.getDouble("seaLevel"));
+                        first_day.setTemperature((float) first_day_from_api.getDouble("temperature"));
+                        first_day.setTemperatureMax((float) first_day_from_api.getDouble("temperatureMax"));
+                        first_day.setTemperatureMin((float) first_day_from_api.getDouble("temperatureMin"));
+
+                    }
+
+                    forecastByIDResponse.onResponse(first_day_from_api.getString("id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

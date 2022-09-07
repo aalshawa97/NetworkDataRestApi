@@ -84,7 +84,21 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "You clicked me!", Toast.LENGTH_LONG).show();
 
                 WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
+                weatherDataService.getCityForecastByID("281133", new WeatherDataService.ForecastByIDResponse() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(MainActivity.this, "Something is wrong", Toast.LENGTH_LONG).show();
+                    }
 
+                    public void onResponse(WeatherReportModel weatherReportModel) {
+                        Toast.makeText(MainActivity.this, weatherReportModel.toString(), Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onResponse(String cityID) {
+                        //Toast.makeText(MainActivity.this, we, Toast.LENGTH_LONG).show();
+                    }
+                });
                 String city = weatherDataService.getCityID(etTextPersonName.getText().toString(), new WeatherDataService.ForecastByIDResponse(){
                     @Override
                     public void onError(String message) {
