@@ -23,6 +23,7 @@ import com.example.networkdatarestapi.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -84,14 +85,16 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "You clicked me!", Toast.LENGTH_LONG).show();
 
                 WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
-                weatherDataService.getCityForecastByID("281133", new WeatherDataService.ForecastByIDResponse() {
+                weatherDataService.getCityForecastByID(etTextPersonName.getText().toString(), new WeatherDataService.ForecastByIDResponse() {
                     @Override
                     public void onError(String message) {
-                        Toast.makeText(MainActivity.this, "Something is wrong", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "Something is wrong " +message, Toast.LENGTH_LONG).show();
                     }
 
-                    public void onResponse(WeatherReportModel weatherReportModel) {
-                        Toast.makeText(MainActivity.this, weatherReportModel.toString(), Toast.LENGTH_LONG).show();
+                    public void onResponse(List<WeatherReportModel> weatherReportModel) {
+                        //Toast.makeText(MainActivity.this, weatherReportModel.toString(), Toast.LENGTH_LONG).show();
+                        //Put the entire list into the listview control
+                        ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, weatherReportModel);
                     }
 
                     @Override
@@ -236,6 +239,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "You clicked me " + etTextPersonName.getText(), Toast.LENGTH_LONG).show();
+
+                weatherDataService.getCityForecastByName(etTextPersonName.getText().toString(), new WeatherDataService.ForecastByIDResponse() {
+
+                    @Override
+                    public void onError(String message) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String cityID) {
+                        
+                    }
+
+                    // @Override
+                    public void onResponse(List<WeatherReportModel> weatherReportModels) {
+                        //Toast.makeText(MainActivity.this, we, Toast.LENGTH_LONG).show();
+                        ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, weatherReportModels);
+                    }
+                });
             }
         });
 

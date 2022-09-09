@@ -2,12 +2,14 @@ package com.example.networkdatarestapi;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.Response.ErrorListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,14 +26,16 @@ public class WeatherDataService {
     public static final String APPID = "&appid=1f3c5ae0f38df8fd7bc09ad6874a4039";
     //Context context;
 
-    public WeatherDataService(Context context){
+    public WeatherDataService(Context context) {
         this.context = context;
     }
 
-    public interface ForecastByIDResponse{
+    public interface ForecastByIDResponse {
         void onError(String message);
 
         void onResponse(String cityID);
+
+        //void onResponse(WeatherReportModel cityID);
     }
 
     public static String getCityID(String cityName, ForecastByIDResponse volleyResponseListener) {
@@ -70,19 +74,18 @@ public class WeatherDataService {
         MySingleton.getInstance(context).addToRequestQueue(request);
 
         //May return a null which is a problem
-        try{
+        try {
+
+        } catch (Exception e) {
 
         }
-        catch (Exception e){
-
-        }
-        return  cityID[0];
+        return cityID[0];
     }
 
-    public void getCityForecastByID(String cityID, ForecastByIDResponse forecastByIDResponse){
-        List<WeatherReportModel> report = new ArrayList<>();
+    public void getCityForecastByID(String cityID, ForecastByIDResponse forecastByIDResponse) {
+        List<WeatherReportModel> weatherReportModels = new ArrayList<>();
 
-       //Get the JSON object
+        //Get the JSON object
         String url = QUERY_FOR_CITY_ID + cityID;
         JsonObjectRequest request = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -90,7 +93,7 @@ public class WeatherDataService {
                 Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
                 try {
                     List<JSONObject> consolidated_weather_list = (List<JSONObject>) response.getJSONObject("consolidated weather");
-                    WeatherReportModel first_day = new WeatherReportModel();
+                    WeatherReportModel one_day = new WeatherReportModel();
                     String wind_direction_compass;
                     float temperature = 0.0F;
                     float temperatureMin = 0.0F;
@@ -103,24 +106,24 @@ public class WeatherDataService {
                     float distance = 0.0F;
                     JSONObject first_day_from_api = consolidated_weather_list.get(0);
 
-                    for(int i = 0; i<consolidated_weather_list.toArray().length; i++){
+                    for (int i = 0; i < consolidated_weather_list.toArray().length; i++) {
                         consolidated_weather_list.get(i);
-                        first_day.setId(first_day_from_api.getInt("id"));
-                        first_day.setWeather_state_name((String) first_day_from_api.get("weather_state_name"));
-                        first_day.setWeather_state_abbr(first_day_from_api.getString("weather_state_abbr"));
-                        first_day.setWind_direction_compass(first_day_from_api.getString("wind_direction_compass"));
+                        one_day.setId(first_day_from_api.getInt("id"));
+                        one_day.setWeather_state_name((String) first_day_from_api.get("weather_state_name"));
+                        one_day.setWeather_state_abbr(first_day_from_api.getString("weather_state_abbr"));
+                        one_day.setWind_direction_compass(first_day_from_api.getString("wind_direction_compass"));
                         //first_day.setGroundLevel(first_day_from_api.getString(1.9f));
-                        first_day.setGroundLevel((float) first_day_from_api.getDouble("groundLevel"));
-                        first_day.setDistance((float)first_day_from_api.getDouble("distance"));
-                        first_day.setHumidity((float)first_day_from_api.getDouble("humidity"));
-                        first_day.setLongitude((float)first_day_from_api.getDouble("longitude"));
-                        first_day.setLatitude((float)first_day_from_api.getDouble("latitude"));
-                        first_day.setPressure((float)first_day_from_api.getDouble("pressure"));
-                        first_day.setSeaLevel((float) first_day_from_api.getDouble("seaLevel"));
-                        first_day.setTemperature((float) first_day_from_api.getDouble("temperature"));
-                        first_day.setTemperatureMax((float) first_day_from_api.getDouble("temperatureMax"));
-                        first_day.setTemperatureMin((float) first_day_from_api.getDouble("temperatureMin"));
-
+                        one_day.setGroundLevel((float) first_day_from_api.getDouble("groundLevel"));
+                        one_day.setDistance((float) first_day_from_api.getDouble("distance"));
+                        one_day.setHumidity((float) first_day_from_api.getDouble("humidity"));
+                        one_day.setLongitude((float) first_day_from_api.getDouble("longitude"));
+                        one_day.setLatitude((float) first_day_from_api.getDouble("latitude"));
+                        one_day.setPressure((float) first_day_from_api.getDouble("pressure"));
+                        one_day.setSeaLevel((float) first_day_from_api.getDouble("seaLevel"));
+                        one_day.setTemperature((float) first_day_from_api.getDouble("temperature"));
+                        one_day.setTemperatureMax((float) first_day_from_api.getDouble("temperatureMax"));
+                        one_day.setTemperatureMin((float) first_day_from_api.getDouble("temperatureMin"));
+                        weatherReportModels.add(one_day);
                     }
 
                     forecastByIDResponse.onResponse(first_day_from_api.getString("id"));
@@ -136,9 +139,40 @@ public class WeatherDataService {
         });
         //return report;
     }
-/*
-    public List<WeatherReportModel> getCityForecastByName(String cityID){
-        return " ";
+
+    public interface GetCityForecastByNameCallback{
+        void onError(String message);
+        void onResponse(List<WeatherReportModel> weatherReportModels);
     }
-    */
+
+    public void getCityForecastByName(String cityName, ForecastByIDResponse getCityForecastByNameCallback) {
+        getCityID(cityName, new ForecastByIDResponse() {
+            @Override
+            public void onError(String message) {
+
+            }
+
+            @Override
+            public void onResponse(String cityID) {
+                getCityForecastByID(cityID, new ForecastByIDResponse() {
+                    @Override
+                    public void onError(String message) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String cityID) {
+
+                    }
+
+                    public void onResponse(List<WeatherReportModel> weatherReportModels) {
+                        //We have the weather report
+                        //ArrayAdapter arrayAdapter = new ArrayAdapter(WeatherDataService.this, simple)
+                        //getCityForecastByNameCallback.onResponse(weatherReportModels.get);
+                    }
+                });
+            }
+        });
+
+    }
 }
