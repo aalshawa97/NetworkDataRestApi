@@ -67,7 +67,8 @@
         app:layout_constraintRight_toRightOf="@id/btn_useCityId"
         app:layout_constraintStart_toEndOf="@+id/btn_useCityId"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_getCityId" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_getCityId"
+        android:importantForAutofill="no" />
 
     <ListView
         android:id="@+id/lv_weatherReport"

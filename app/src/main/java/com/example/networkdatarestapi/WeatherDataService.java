@@ -140,12 +140,12 @@ public class WeatherDataService {
         //return report;
     }
 
-    public interface GetCityForecastByNameCallback{
-        void onError(String message);
+    public interface GetCityForecastByNameCallBack{
+
+        void Error (String message);
         void onResponse(List<WeatherReportModel> weatherReportModels);
     }
-
-    public void getCityForecastByName(String cityName, ForecastByIDResponse getCityForecastByNameCallback) {
+    public void getCityForecastByName(String cityName, GetCityForecastByNameCallBack getCityForecastByNameCallBack) {
         getCityID(cityName, new ForecastByIDResponse() {
             @Override
             public void onError(String message) {
@@ -167,6 +167,7 @@ public class WeatherDataService {
 
                     public void onResponse(List<WeatherReportModel> weatherReportModels) {
                         //We have the weather report
+                        getCityForecastByNameCallBack.onResponse( weatherReportModels );
                         //ArrayAdapter arrayAdapter = new ArrayAdapter(WeatherDataService.this, simple)
                         //getCityForecastByNameCallback.onResponse(weatherReportModels.get);
                     }

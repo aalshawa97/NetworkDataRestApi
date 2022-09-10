@@ -235,32 +235,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_getWeatherByName.setOnClickListener(new View.OnClickListener(){
+        btn_getWeatherByName.setOnClickListener( new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "You clicked me " + etTextPersonName.getText(), Toast.LENGTH_LONG).show();
-
-                weatherDataService.getCityForecastByName(etTextPersonName.getText().toString(), new WeatherDataService.ForecastByIDResponse() {
-
-                    @Override
-                    public void onError(String message) {
-
-                    }
+            public void onClick( View v )
+            {
+                weatherDataService.getCityForecastByName( etTextPersonName.getText().toString(), new WeatherDataService.GetCityForecastByNameCallBack()
+                {
 
                     @Override
-                    public void onResponse(String cityID) {
-                        
+                    public void Error( String message )
+                    {
+
+                        Toast.makeText( MainActivity.this, "Something went wrong ",
+                                Toast.LENGTH_SHORT ).show();
                     }
 
-                    // @Override
-                    public void onResponse(List<WeatherReportModel> weatherReportModels) {
-                        //Toast.makeText(MainActivity.this, we, Toast.LENGTH_LONG).show();
-                        ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, weatherReportModels);
+                    @Override
+                    public void onResponse( List<WeatherReportModel> weatherReportModels )
+                    {
+
+                        ArrayAdapter arrayAdapter = new ArrayAdapter( MainActivity.this,android.R.layout.simple_list_item_1 , weatherReportModels);
+
+                        lv_forecastList.setAdapter( arrayAdapter );
+
                     }
-                });
+                } );
             }
-        });
-
+        } );
         //setSupportActionBar(binding.toolbar);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
