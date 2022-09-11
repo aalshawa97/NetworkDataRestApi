@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         btn_getWeatherById = findViewById(R.id.btn_useCityId);
         btn_getWeatherByName = findViewById(R.id.btn_useCityName);
         lv_forecastList = findViewById(R.id.lv_weatherReport);
-        etTextPersonName = findViewById(R.id.editTextTextPersonName);
+        etTextPersonName = findViewById(R.id.editTextCityName);
 
         final WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
 
