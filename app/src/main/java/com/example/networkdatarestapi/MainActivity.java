@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     //Define all the components that are in the XML file
     Button btn_getCityId, btn_getWeatherById, btn_getWeatherByName;
-    EditText etTextPersonName;
+    EditText etTextCityName;
     ListView lv_forecastList;
 
     //This is the data that will be shown in the listview component.
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         btn_getWeatherById = findViewById(R.id.btn_useCityId);
         btn_getWeatherByName = findViewById(R.id.btn_useCityName);
         lv_forecastList = findViewById(R.id.lv_weatherReport);
-        etTextPersonName = findViewById(R.id.editTextCityName);
+        etTextCityName = findViewById(R.id.editTextCityName);
 
         final WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
 
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "You clicked me!", Toast.LENGTH_LONG).show();
 
                 WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
-                weatherDataService.getCityForecastByID(etTextPersonName.getText().toString(), new WeatherDataService.ForecastByIDResponse() {
+                weatherDataService.getCityForecastByID(etTextCityName.getText().toString(), new WeatherDataService.ForecastByIDResponse() {
                     @Override
                     public void onError(String message) {
                         Toast.makeText(MainActivity.this, "Something is wrong " +message, Toast.LENGTH_LONG).show();
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                         //Toast.makeText(MainActivity.this, we, Toast.LENGTH_LONG).show();
                     }
                 });
-                String city = weatherDataService.getCityID(etTextPersonName.getText().toString(), new WeatherDataService.ForecastByIDResponse(){
+                String city = weatherDataService.getCityID(etTextCityName.getText().toString(), new WeatherDataService.ForecastByIDResponse(){
                     @Override
                     public void onError(String message) {
                         Toast.makeText(MainActivity.this, "Something is wrong ", Toast.LENGTH_LONG).show();
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
 
-                String city = weatherDataService.getCityID(etTextPersonName.getText().toString(), new WeatherDataService.ForecastByIDResponse() {
+                String city = weatherDataService.getCityID(etTextCityName.getText().toString(), new WeatherDataService.ForecastByIDResponse() {
                     @Override
                     public void onError(String message) {
                         Toast.makeText(MainActivity.this, "Something is wrong ", Toast.LENGTH_LONG).show();
@@ -137,10 +137,10 @@ public class MainActivity extends AppCompatActivity {
 
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-                String url = QUERY_FOR_CITY_ID + etTextPersonName.getText() + APP_ID;
+                String url = QUERY_FOR_CITY_ID + etTextCityName.getText() + APP_ID;
 
                 final String[] cityID = {""};
-                String cityId = WeatherDataService.getCityID(etTextPersonName.getText().toString(), new WeatherDataService.ForecastByIDResponse() {
+                String cityId = WeatherDataService.getCityID(etTextCityName.getText().toString(), new WeatherDataService.ForecastByIDResponse() {
                     @Override
                     public void onError(String message) {
                         Toast.makeText(MainActivity.this, "Something wrong : " + message.toString(), Toast.LENGTH_LONG);
@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick( View v )
             {
-                weatherDataService.getCityForecastByName( etTextPersonName.getText().toString(), new WeatherDataService.GetCityForecastByNameCallBack()
+                weatherDataService.getCityForecastByName( etTextCityName.getText().toString(), new WeatherDataService.GetCityForecastByNameCallBack()
                 {
 
                     @Override
