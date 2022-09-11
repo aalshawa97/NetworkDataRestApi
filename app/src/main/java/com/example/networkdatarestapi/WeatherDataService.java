@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-
+import com.android.volley.toolbox.Volley;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -62,13 +62,10 @@ public class WeatherDataService {
                 //This worked, but it didn't return the id number to the MainActivity
                 Toast.makeText(context, "City ID = " + cityID[0], Toast.LENGTH_LONG).show();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Error: " + error.getMessage(), Toast.LENGTH_LONG).show();
-                volleyResponseListener.onError("Something went wrong");
-                volleyResponseListener.onResponse(cityID[0]);
-            }
+        }, error -> {
+            Toast.makeText(context, "Error: " + error.getMessage(), Toast.LENGTH_LONG).show();
+            volleyResponseListener.onError("Something went wrong");
+            volleyResponseListener.onResponse(cityID[0]);
         });
 
         MySingleton.getInstance(context).addToRequestQueue(request);
@@ -131,11 +128,8 @@ public class WeatherDataService {
                     e.printStackTrace();
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        }, error -> {
 
-            }
         });
         //return report;
     }
