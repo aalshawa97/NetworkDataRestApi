@@ -113,10 +113,11 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Returned an ID of " + cityID, Toast.LENGTH_LONG).show();
                         //lv_forecastList.setAdapter(new ArrayAdapter<WeatherReportModel>(getApplicationContext(), Integer.parseInt("1"), 0));
                         //Test
-                        WeatherReportModel one_day = new WeatherReportModel();
+
+                            WeatherReportModel one_day = new WeatherReportModel();
 
                             List<WeatherReportModel> weatherReportModels = new ArrayList<>();
-                            one_day.setId(0);
+                            //one_day.setId(0);
                             weatherReportModels.add(one_day);
                             /*
                             one_day.setWeather_state_name((String) first_day_from_api.get("weather_state_name"));
