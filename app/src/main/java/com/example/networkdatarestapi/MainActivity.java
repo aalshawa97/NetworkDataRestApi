@@ -111,6 +111,60 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String cityID) {
                         Toast.makeText(MainActivity.this, "Returned an ID of " + cityID, Toast.LENGTH_LONG).show();
+                        //lv_forecastList.setAdapter(new ArrayAdapter<WeatherReportModel>(getApplicationContext(), Integer.parseInt("1"), 0));
+                        //Test
+                        WeatherReportModel one_day = new WeatherReportModel();
+
+                            List<WeatherReportModel> weatherReportModels = new ArrayList<>();
+                            one_day.setId(0);
+                            weatherReportModels.add(one_day);
+                            /*
+                            one_day.setWeather_state_name((String) first_day_from_api.get("weather_state_name"));
+                            one_day.setWeather_state_abbr(first_day_from_api.getString("weather_state_abbr"));
+                            one_day.setWind_direction_compass(first_day_from_api.getString("wind_direction_compass"));
+                            //first_day.setGroundLevel(first_day_from_api.getString(1.9f));
+                            one_day.setGroundLevel((float) first_day_from_api.getDouble("groundLevel"));
+                            one_day.setDistance((float) first_day_from_api.getDouble("distance"));
+                            one_day.setHumidity((float) first_day_from_api.getDouble("humidity"));
+                            one_day.setLongitude((float) first_day_from_api.getDouble("longitude"));
+                            one_day.setLatitude((float) first_day_from_api.getDouble("latitude"));
+                            one_day.setPressure((float) first_day_from_api.getDouble("pressure"));
+                            one_day.setSeaLevel((float) first_day_from_api.getDouble("seaLevel"));
+                            one_day.setTemperature((float) first_day_from_api.getDouble("temperature"));
+                            one_day.setTemperatureMax((float) first_day_from_api.getDouble("temperatureMax"));
+                            one_day.setTemperatureMin((float) first_day_from_api.getDouble("temperatureMin"));
+                            */
+
+                        ArrayAdapter arrayAdapter = new ArrayAdapter( MainActivity.this,android.R.layout.simple_expandable_list_item_1 , weatherReportModels);
+                        lv_forecastList.setAdapter(arrayAdapter);
+                    }
+
+                    @Override
+                    public void onResponse(List<WeatherReportModel> weatherReportModels) {
+                        WeatherReportModel one_day = new WeatherReportModel();
+
+                        //List<WeatherReportModel> weatherReportModels = new ArrayList<>();
+                        one_day.setId(0);
+                        weatherReportModels.add(one_day);
+                            /*
+                            one_day.setWeather_state_name((String) first_day_from_api.get("weather_state_name"));
+                            one_day.setWeather_state_abbr(first_day_from_api.getString("weather_state_abbr"));
+                            one_day.setWind_direction_compass(first_day_from_api.getString("wind_direction_compass"));
+                            //first_day.setGroundLevel(first_day_from_api.getString(1.9f));
+                            one_day.setGroundLevel((float) first_day_from_api.getDouble("groundLevel"));
+                            one_day.setDistance((float) first_day_from_api.getDouble("distance"));
+                            one_day.setHumidity((float) first_day_from_api.getDouble("humidity"));
+                            one_day.setLongitude((float) first_day_from_api.getDouble("longitude"));
+                            one_day.setLatitude((float) first_day_from_api.getDouble("latitude"));
+                            one_day.setPressure((float) first_day_from_api.getDouble("pressure"));
+                            one_day.setSeaLevel((float) first_day_from_api.getDouble("seaLevel"));
+                            one_day.setTemperature((float) first_day_from_api.getDouble("temperature"));
+                            one_day.setTemperatureMax((float) first_day_from_api.getDouble("temperatureMax"));
+                            one_day.setTemperatureMin((float) first_day_from_api.getDouble("temperatureMin"));
+                            */
+
+                        ArrayAdapter arrayAdapter = new ArrayAdapter( MainActivity.this,android.R.layout.simple_expandable_list_item_1 , weatherReportModels);
+                        lv_forecastList.setAdapter(arrayAdapter);
                     }
                 });
             }
@@ -131,6 +185,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String cityID) {
                         Toast.makeText(MainActivity.this, "Returned an ID of " + cityID, Toast.LENGTH_LONG).show();
                     }
+
+                    @Override
+                    public void onResponse(List<WeatherReportModel> weatherReportModels) {
+                        ArrayAdapter arrayAdapter = new ArrayAdapter( MainActivity.this,android.R.layout.simple_expandable_list_item_1 , weatherReportModels);
+                        lv_forecastList.setAdapter(arrayAdapter);
+                    }
                 });
                 Toast.makeText(MainActivity.this, "Returned an ID of " + city, Toast.LENGTH_SHORT).show();
                 //final TextView textView = (TextView) findViewById(R.id.text);
@@ -149,6 +209,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String cityID) {
                         Toast.makeText(MainActivity.this, "Returned an ID of: " + cityID, Toast.LENGTH_LONG);
+                    }
+
+                    @Override
+                    public void onResponse(List<WeatherReportModel> weatherReportModels) {
+                        ArrayAdapter arrayAdapter = new ArrayAdapter( MainActivity.this,android.R.layout.simple_expandable_list_item_1 , weatherReportModels);
+                        lv_forecastList.setAdapter( arrayAdapter );
                     }
                 });
                 //JSONObject Jarray = new JSONObject(result);

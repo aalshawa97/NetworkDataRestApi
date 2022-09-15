@@ -38,6 +38,8 @@ public class WeatherDataService {
 
         void onResponse(String cityID);
 
+        void onResponse(List<WeatherReportModel> weatherReportModels);
+
         //void onResponse(WeatherReportModel cityID);
     }
 
@@ -68,6 +70,7 @@ public class WeatherDataService {
             Toast.makeText(context, "Error: " + error.getMessage(), Toast.LENGTH_LONG).show();
             volleyResponseListener.onError("Something went wrong");
             volleyResponseListener.onResponse(cityID);
+            //volleyResponseListener.onResponse();
         });
 
         MySingleton.getInstance(context).addToRequestQueue(request);
@@ -161,14 +164,19 @@ public class WeatherDataService {
 
                     }
 
-                    //@Override
+                    @Override
                     public void onResponse(List<WeatherReportModel> weatherReportModels) {
                         //We have the weather report
-                        getCityForecastByNameCallBack.onResponse( weatherReportModels );
+                        getCityForecastByNameCallBack.onResponse(weatherReportModels);
                         //ArrayAdapter arrayAdapter = new ArrayAdapter(WeatherDataService.this, simple)
                         //getCityForecastByNameCallback.onResponse(weatherReportModels.get);
                     }
                 });
+            }
+
+            @Override
+            public void onResponse(List<WeatherReportModel> weatherReportModels) {
+                getCityForecastByNameCallBack.onResponse( weatherReportModels );
             }
         });
 
