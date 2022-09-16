@@ -118,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
 
                             List<WeatherReportModel> weatherReportModels = new ArrayList<>();
                             //one_day.setId(0);
+                            //Set the data through JSON request
+
+
                             weatherReportModels.add(one_day);
                             /*
                             one_day.setWeather_state_name((String) first_day_from_api.get("weather_state_name"));
@@ -145,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                         WeatherReportModel one_day = new WeatherReportModel();
 
                         //List<WeatherReportModel> weatherReportModels = new ArrayList<>();
-                        one_day.setId(0);
+                        //one_day.setId(0);
                         weatherReportModels.add(one_day);
                             /*
                             one_day.setWeather_state_name((String) first_day_from_api.get("weather_state_name"));
