@@ -120,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
                             //one_day.setId(0);
                             //Set the data through JSON request
 
+                            //One day can set measurements for weather
+                            //one_day.setLatitude(api);
 
                             weatherReportModels.add(one_day);
                             /*
