@@ -70,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //Assign variables and values to all of the items in the XML layout file.
-        btn_getCityId = findViewById(R.id.btn_getCityId);
-        btn_getWeatherById = findViewById(R.id.btn_useCityId);
-        btn_getWeatherByName = findViewById(R.id.btn_useCityName);
+        btn_getCityId = findViewById(R.id.btn_getCityID);
+        btn_getWeatherById = findViewById(R.id.btn_getWeatherByCityID);
+        btn_getWeatherByName = findViewById(R.id.btn_getWeatherByCityName);
         lv_forecastList = findViewById(R.id.lv_weatherReport);
         etTextCityName = findViewById(R.id.editTextCityName);
 
@@ -337,8 +337,8 @@ public class MainActivity extends AppCompatActivity {
         } );
         //setSupportActionBar(binding.toolbar);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+        //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        //appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         /*
